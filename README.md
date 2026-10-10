@@ -25,6 +25,11 @@ docker run -d -p "5002:5002" \
 <docker_image_name>
 ```
 
+#### Mögliche Werte für <docker_image_name>:
+    ghcr.io/creadesk/simple_llm_chat:latest
+
+    codeberg.org/creadesk/simple_llm_chat:latest
+
 ## Aufruf
 ```
 http://127.0.0.1/5002
