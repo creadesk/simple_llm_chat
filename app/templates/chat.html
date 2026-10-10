@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="chat-history">
+    {% for entry in history %}
+        {% if entry.role == 'user' %}
+            <div class="message user"><strong>Du:</strong> {{ entry.content }}</div>
+        {% elif entry.role == 'assistant' %}
+            <div class="message assistant"><strong>LLM:</strong> {{ entry.content }}</div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<form action="{{ url_for('chat') }}" method="post" class="chat-form">
+    <label for="model">Modell wählen:</label>
+    <select name="model" id="model">
+        {% for m in models %}
+            <option value="{{ m }}" {% if m == current_model %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="prompt">Prompt:</label>
+    <textarea name="prompt" id="prompt" rows="3" required></textarea>
+
+    <button type="submit">Senden</button>
+</form>
+{% endblock %}

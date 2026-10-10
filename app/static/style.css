@@ -1,0 +1,143 @@
+/* =========================
+   ── LLM‑Chat – Warmes Dunkles Design
+   ========================= */
+
+/* 1. Grund‑Setup --------------------------------------------------- */
+:root {
+    /* Farbpalette – warm & dunkel */
+    --bg-main:      #1e1e2e;   /* dunkles Mitternachtsblau */
+    --bg-card:      #292a3a;   /* leicht heller Karte-Background */
+    --text-primary: #f0eae1;   /* sanftes, warmes Beige */
+    --accent:       #ff9b5e;   /* orangener Kontrast */
+    --accent-soft:  #ffbc86;
+    --border:       rgba(255,255,255,.08);
+    --shadow:       rgba(0,0,0,.3);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    text-align: center;
+    padding: 1rem 0;
+    background: var(--bg-card);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--accent);
+}
+
+/* 2. Layout --------------------------------------------------------- */
+main {
+    flex: 1;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 3. Nachrichten‑Block -------------------------------------------- */
+.chat-history {
+    margin-bottom: 2rem;
+}
+
+.message {
+    padding: 0.9rem 1rem;
+    margin: 0.8rem 0;
+    border-radius: 8px;
+    background: var(--bg-card);
+    box-shadow: 0 2px 6px var(--shadow);
+    max-width: 90%;
+    word-wrap: break-word;
+}
+
+.message.user {
+    background: var(--accent-soft);
+    color: #1e1e2e;   /* dunkles Text für User‑Nachrichten */
+    align-self: flex-end;
+    text-align: right;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    color: var(--text-primary);
+}
+
+/* 4. Formular -------------------------------------------------------- */
+.chat-form label {
+    display: block;
+    margin: 0.6rem 0 0.4rem;
+    font-weight: 600;
+    color: var(--accent-soft);
+}
+
+.chat-form textarea,
+.chat-form select {
+    width: 100%;
+    padding: 0.8rem;
+    box-sizing: border-box;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: border-color .2s ease;
+}
+
+.chat-form textarea:focus,
+.chat-form select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.chat-form button {
+    display: inline-block;
+    margin-top: 0.8rem;
+    padding: 0.8rem 1.6rem;
+    background: var(--accent);
+    color: var(--bg-main);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.chat-form button:hover,
+.chat-form button:focus {
+    background: var(--accent-soft);
+    outline: none;
+}
+
+/* 5. Flash‑Nachrichten ---------------------------------------------- */
+.flashes {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.flashes li {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: 6px;
+    background: var(--bg-card);
+    box-shadow: 0 1px 4px var(--shadow);
+}
+
+.flashes li.warning  { background: #ffd279; color: #1e1e2e; }
+.flashes li.danger   { background: #ff6b6b; color: #1e1e2e; }
+
+/* 6. Responsivität -------------------------------------------- */
+@media (max-width: 480px) {
+    .message {
+        font-size: 0.95rem;
+    }
+}
