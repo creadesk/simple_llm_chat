@@ -6,7 +6,7 @@
         {% if entry.role == 'user' %}
             <div class="message user"><strong>Du:</strong> {{ entry.content }}</div>
         {% elif entry.role == 'assistant' %}
-            <div class="message assistant"><strong>LLM:</strong> {{ entry.content }}</div>
+            <div class="message assistant"><strong>LLM:</strong> {{ entry.content | markdown2 }}</div>
         {% endif %}
     {% endfor %}
 </div>

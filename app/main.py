@@ -12,6 +12,7 @@ from flask import (
     session,
     flash,
 )
+import markdown2
 
 app = Flask(__name__)
 
@@ -59,7 +60,12 @@ def call_ollama(model: str, prompt: str) -> str:
         resp.raise_for_status()
         data = resp.json()
         # Ollama liefert Antwort in data["message"]["content"]
-        return data["message"]["content"]
+        content = data["message"]["content"]
+
+        # 2. Optional: falls die Antwort bereits Markdown ist, keine Konvertierung
+        #    Falls du die Antwort in reinen HTML‑Text umwandeln möchtest, schreibe:
+        #    content = markdown2.markdown(content)
+        return content
     except Exception as exc:
         app.logger.error("Ollama‑Error: %s", exc)
         return f"[Fehler beim Aufruf von Ollama: {exc}]"
