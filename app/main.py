@@ -13,6 +13,8 @@ from flask import (
     flash,
 )
 import markdown2
+import bleach
+from markupsafe import Markup
 
 app = Flask(__name__)
 
@@ -29,6 +31,15 @@ except (TypeError, ValueError):
 # ---- Caching‑Mechanismus für Modell‑Liste ----
 _MODEL_CACHE = {"timestamp": 0, "models": []}
 _CACHE_TTL = 60  # Sekunden
+
+# --------------------------------------------------------------------
+#  Jinja‑Filter für Markdown
+# --------------------------------------------------------------------
+@app.template_filter('markdown2')
+def markdown2_filter(text: str) -> Markup:
+    html = markdown2.markdown(text, extras=["safe_mode"])
+    cleaned = bleach.clean(html, tags=bleach.sanitizer.ALLOWED_TAGS, attributes=bleach.sanitizer.ALLOWED_ATTRIBUTES)
+    return Markup(cleaned)
 
 def _fetch_models_from_ollama() -> list[str]:
     """
