@@ -141,3 +141,8 @@ main {
         font-size: 0.95rem;
     }
 }
+
+.textarea_response{
+    width: 100%;
+    height: 100%;
+}
