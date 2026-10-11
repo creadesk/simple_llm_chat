@@ -22,6 +22,8 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "changeme-please")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://ollama:11434")
 _RESPONSE_TIMEOUT_STR = os.getenv("RESPONSE_TIMEOUT", "600")
+MAX_HISTORY = os.getenv("MAX_HISTORY", "20")          #Default 20 ... 10 User‑+10 Assistant‑Nachrichten
+
 try:
     RESPONSE_TIMEOUT = float(_RESPONSE_TIMEOUT_STR)  # 600.0s → 10min
 except (TypeError, ValueError):
@@ -56,14 +58,15 @@ def _fetch_models_from_ollama() -> list[str]:
         app.logger.error("Fehler beim Abrufen der Modelle: %s", exc)
         return []
 
-def call_ollama(model: str, prompt: str) -> str:
+def call_ollama(model: str, prompt: str, history: list[dict]) -> str:
     """
-    Sendet einen Prompt an Ollama und gibt die Antwort zurück.
+    Sendet die gesamte Unterhaltung an Ollama und liefert die Antwort zurück.
     """
     url = f"{OLLAMA_HOST}/api/chat"
+    messages = history[-MAX_HISTORY:] + [{"role": "user", "content": prompt}]
     payload = {
         "model": model,
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": messages,
         "stream": False,
     }
     try:
@@ -130,10 +133,13 @@ def chat():
 
     session["model"] = model
 
-    # --- Prompt an Ollama schicken ----
-    answer = call_ollama(model, prompt)
+    # Historie holen
+    history = session["history"]
 
-    # Verlauf aktualisieren
+    # --- Prompt an Ollama schicken ----
+    answer = call_ollama(model, prompt, history)
+
+    # Verlauf ergänzen (nach der Antwort)
     session["history"].append({"role": "user", "content": prompt})
     session["history"].append({"role": "assistant", "content": answer})
 
