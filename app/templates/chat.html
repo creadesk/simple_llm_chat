@@ -7,8 +7,9 @@
             <div class="message user"><strong>Du:</strong> {{ entry.content }}</div>
         {% elif entry.role == 'assistant' %}
             <div class="message assistant">
-                <textarea>
-                    <strong>LLM:</strong> {{ entry.content | markdown2 | safe }}
+                <strong>LLM:</strong>
+                <textarea class="message assistant">
+                    {{ entry.content | markdown2 | safe }}
                 </textarea>
             </div>
         {% endif %}
