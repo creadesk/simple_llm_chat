@@ -75,7 +75,7 @@ def call_ollama(model: str, prompt: str) -> str:
 
         # 2. Optional: falls die Antwort bereits Markdown ist, keine Konvertierung
         #    Falls du die Antwort in reinen HTML‑Text umwandeln möchtest, schreibe:
-        content = markdown2.markdown(content)
+        #content = markdown2.markdown(content)
         return content
     except Exception as exc:
         app.logger.error("Ollama‑Error: %s", exc)

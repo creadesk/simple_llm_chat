@@ -8,9 +8,9 @@
         {% elif entry.role == 'assistant' %}
             <div class="message assistant">
                 <strong>LLM:</strong>
-                <textarea class="message assistant textarea_response">
-                    {{ entry.content | markdown2 | safe }}
-                </textarea>
+                <pre>
+                    {{ entry.content }}
+                </pre>
             </div>
         {% endif %}
     {% endfor %}
