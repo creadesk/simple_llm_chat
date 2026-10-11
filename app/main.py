@@ -22,13 +22,19 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "changeme-please")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://ollama:11434")
 _RESPONSE_TIMEOUT_STR = os.getenv("RESPONSE_TIMEOUT", "600")
-MAX_HISTORY = os.getenv("MAX_HISTORY", "20")          #Default 20 ... 10 User‑+10 Assistant‑Nachrichten
+_MAX_HISTORY = os.getenv("MAX_HISTORY", "20")          #Default 20 ... 10 User‑+10 Assistant‑Nachrichten
 
 try:
     RESPONSE_TIMEOUT = float(_RESPONSE_TIMEOUT_STR)  # 600.0s → 10min
 except (TypeError, ValueError):
     # Fallback, falls die Umgebungsvariable keinen gültigen Zahlwert enthält
     RESPONSE_TIMEOUT = 600.0
+
+try:
+    MAX_HISTORY = int(_MAX_HISTORY)
+except (TypeError, ValueError):
+    # Fallback‑Wert, falls die Umgebungsvariable nicht zahlweise darstellbar ist
+    MAX_HISTORY = 20
 
 # ---- Caching‑Mechanismus für Modell‑Liste ----
 _MODEL_CACHE = {"timestamp": 0, "models": []}
